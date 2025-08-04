@@ -15,17 +15,17 @@ $conn = new mysqli($servername, $username, $password, $database);
 
 
 
-// Kontrola připojení
+
 if ($conn->connect_error) {
     die("Chyba připojení: " . $conn->connect_error);
 }
 
-// ✅ REGISTRACE UŽIVATELE
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["register"])) {
     $uzivatel = $_POST["username"];
     $heslo = password_hash($_POST["password"], PASSWORD_BCRYPT);
 
-    // Kontrola, zda už uživatel existuje
+    
     $sql_check = "SELECT * FROM 1registrace WHERE username = ?";
     $stmt_check = $conn->prepare($sql_check);
     $stmt_check->bind_param("s", $uzivatel);
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["register"])) {
     if ($result->num_rows > 0) {
         echo "<script>alert('Toto uživatelské jméno už existuje!'); window.history.back();</script>";
     } else {
-        // Uložení uživatele do databáze
+        
         $sql = "INSERT INTO 1registrace (username, password) VALUES (?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ss", $uzivatel, $heslo);
@@ -50,12 +50,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["register"])) {
     $stmt_check->close();
 }
 
-// ✅ PŘIHLÁŠENÍ UŽIVATELE
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
     $uzivatel = $_POST["login_username"];
     $heslo = $_POST["login_password"];
 
-    // Ověření uživatele v databázi
+    
     $sql = "SELECT password FROM 1registrace WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $uzivatel);
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
     $stmt->fetch();
     $stmt->close();
 
-    // Ověření hesla
+    
     if (password_verify($heslo, $hashed_password)) {
         $_SESSION["username"] = $uzivatel;
         $_SESSION["loggedin"] = true;
@@ -194,3 +194,4 @@ $conn->close();
     </div>
 </body>
 </html>
+
