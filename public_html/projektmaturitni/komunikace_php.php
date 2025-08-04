@@ -6,7 +6,6 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL
 );
 */
-// Připojení k databázi pomocí PDO
 $dsn = "mysql:host=dbs.spskladno.cz;dbname=vyuka1;charset=utf8mb4";
 $username = "student1";
 $password = "spsnet";
@@ -18,7 +17,7 @@ try {
     die("Chyba připojení k databázi: " . $e->getMessage());
 }
 
-// Funkce pro vložení uživatele
+
 function insertUser($pdo, $name, $email)
 {
     $sql = "INSERT INTO users (name, email) VALUES (:name, :email)";
@@ -29,7 +28,7 @@ function insertUser($pdo, $name, $email)
     ]);
 }
 
-// Funkce pro načtení všech uživatelů
+
 function fetchUsers($pdo)
 {
     $sql = "SELECT * FROM users";
@@ -37,7 +36,7 @@ function fetchUsers($pdo)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Zpracování formuláře
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'] ?? '';
     $email = $_POST['email'] ?? '';
@@ -54,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Načtení všech uživatelů
+
 $users = fetchUsers($pdo);
 ?>
 <!DOCTYPE html>
@@ -92,5 +91,6 @@ $users = fetchUsers($pdo);
         <p>Žádní uživatelé nejsou k dispozici.</p>
     <?php endif; ?>
 </body>
+
 
 </html>
