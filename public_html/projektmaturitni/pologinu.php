@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start session pro uložení přihlášeného uživatele
+session_start(); 
 
 $servername = "dbs.spskladno.cz";
 $username = "student18";
@@ -8,20 +8,20 @@ $database = "vyuka18";
 
 $conn = new mysqli($servername, $username, $password, $database);
 
-// Kontrola připojení
+
 if ($conn->connect_error) {
     die("Chyba připojení: " . $conn->connect_error);
 }
 
-//  Zkontrolujeme, jestli je uživatel přihlášen
+
 if (!isset($_SESSION["username"])) {
     echo "<script>alert('Musíte se nejprve přihlásit!'); window.location.href='rezervace.php';</script>";
     exit();
 }
 
-$logged_user = $_SESSION["username"]; // Přihlášený uživatel
+$logged_user = $_SESSION["username"]; 
 
-//  Uložení rezervace s přihlášeným uživatelem
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["spz"])) {
     $spz = $_POST["spz"];
     $barva = $_POST["barva"];
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["spz"])) {
     $stmt->close();
 }
 
-//  Načtení návštěv pouze pro přihlášeného uživatele
+
 $navstevy = [];
 $sql = "SELECT spz, barva, model, datum_navstevy, potvrzeno FROM 1auta WHERE username = ? ORDER BY datum_navstevy DESC";
 $stmt = $conn->prepare($sql);
@@ -94,7 +94,7 @@ $conn->close();
         <img src="header.jpg" alt="Kontakt Header" style="width:100%; max-height:200px; object-fit:cover;">
     </header>
 
-    <!-- Informace o přihlášeném uživateli a odhlášení -->
+    
     <div class="container">
         <h3>Jste přihlášen jako <strong><?php echo htmlspecialchars($logged_user); ?></strong></h3>
         <form method="POST" action="logout.php">
@@ -130,7 +130,7 @@ $conn->close();
                 <th>Barva</th>
                 <th>Model</th>
                 <th>Datum návštěvy</th>
-                <th>Stav</th> <!-- Nový sloupec pro fajfku -->
+                <th>Stav</th> 
             </tr>
             <?php foreach ($navstevy as $navsteva): ?>
                 <tr>
@@ -150,3 +150,4 @@ $conn->close();
 </div>
 </body>
 </html>
+
