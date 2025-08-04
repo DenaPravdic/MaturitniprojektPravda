@@ -3,7 +3,7 @@ from tkinter import messagebox, PhotoImage
 import mysql.connector
 import os
 
-# Připojení k databázi
+
 def connect_db():
     return mysql.connector.connect(
         host="dbs.spskladno.cz",
@@ -12,7 +12,7 @@ def connect_db():
         database="vyuka18"
     )
 
-# Funkce pro hledání návštěvy podle data
+
 def check_date():
     date = entry.get().strip()
     db = connect_db()
@@ -30,7 +30,7 @@ def check_date():
     else:
         result_label.config(text="Žádné návštěvy nenalezeny.", fg="red")
 
-# Funkce pro potvrzení návštěvy
+
 def confirm_visit():
     date = entry.get().strip()
     db = connect_db()
@@ -41,11 +41,11 @@ def confirm_visit():
 
     if cursor.rowcount > 0:
         messagebox.showinfo("Potvrzení", f"Návštěva na {date} byla potvrzena ✅.")
-        check_date()  # Aktualizovat výpis
+        check_date()  
     else:
         messagebox.showwarning("Chyba", "Žádná návštěva nebyla nalezena.")
 
-# Funkce pro zrušení návštěvy
+
 def cancel_visit():
     date = entry.get().strip()
     db = connect_db()
@@ -60,7 +60,7 @@ def cancel_visit():
     else:
         messagebox.showwarning("Chyba", "Žádná návštěva nebyla nalezena.")
 
-# Funkce pro zobrazení všech nadcházejících návštěv
+
 def show_upcoming_visits():
     db = connect_db()
     cursor = db.cursor(dictionary=True)
@@ -77,7 +77,7 @@ def show_upcoming_visits():
     else:
         messagebox.showinfo("Nadcházející návštěvy", "Žádné nadcházející návštěvy.")
 
-# GUI
+
 root = tk.Tk()
 root.title("Správa návštěv")
 root.geometry("500x500")  
@@ -85,22 +85,22 @@ root.configure(bg="#2E2E2E")
 
 
 
-# Nadpis (pod logem)
 tk.Label(root, text="Vyhledávání návštěv podle data", font=("Arial", 16, "bold"), bg="#1C1C1C", fg="white", pady=10).pack(fill="x")
 
-# Vstupní pole
+
 tk.Label(root, text="Zadejte datum návštěvy (YYYY-MM-DD):", font=("Arial", 12), bg="#2E2E2E", fg="white").pack(pady=5)
 entry = tk.Entry(root, font=("Arial", 12))
 entry.pack(pady=5)
 
-# Tlačítka
+
 tk.Button(root, text="Vyhledat návštěvu", font=("Arial", 12), command=check_date, bg="#555555", fg="white").pack(pady=5)
 tk.Button(root, text="Odstranit návštěvu", font=("Arial", 12), command=cancel_visit, bg="#AA4444", fg="white").pack(pady=5)
 tk.Button(root, text="Potvrdit objednávku", font=("Arial", 12), command=confirm_visit, bg="#4CAF50", fg="white").pack(pady=5)
 tk.Button(root, text="Zobrazit nadcházející návštěvy", font=("Arial", 12), command=show_upcoming_visits, bg="#444444", fg="white").pack(pady=5)
 
-# Výsledky
+
 result_label = tk.Label(root, text="", font=("Arial", 12), bg="#2E2E2E", fg="white", justify="left")
 result_label.pack(pady=10)
 
 root.mainloop()
+
